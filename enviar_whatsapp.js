@@ -69,8 +69,8 @@ const swaggerDocument = {
         version: '1.0.0'
     },
     servers: [
-        { url: 'http://localhost:3000', description: 'Servidor local' },
-        { url: 'http://app1.cdxsistemas.com.br:3000', description: 'Servidor externo' }
+        { url: '/' }
+
     ],
     components: {
         securitySchemes: {
