@@ -67,8 +67,9 @@ const swaggerDocument = {
         version: '1.0.0'
     },
     servers: [
-        { url: 'http://localhost:3000' }  // URL base da API
-    ],
+  { url: 'http://localhost:3000' },
+  { url: 'http://app1.cdxsistemas.com.br:3000' }
+  ],
     components: {
         securitySchemes: {
             bearerAuth: {
