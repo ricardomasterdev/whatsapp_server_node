@@ -7,7 +7,7 @@ const app = express();
 const PORT = 3000;
 
 // ===== TOKEN DE SEGURANÇA =====
-const API_TOKEN = 'S5BfKSDsS'; // TROQUE por algo seguro
+const API_TOKEN = 'Ric@7901'; // TROQUE por algo seguro
 
 app.use(bodyParser.json());
 
@@ -58,4 +58,95 @@ app.listen(PORT, () => {
     console.log(`Servidor WhatsApp REST rodando na porta ${PORT}`);
 });
 
+// Definição da documentação Swagger (OpenAPI) da API
+const swaggerDocument = {
+    openapi: '3.0.0',
+    info: {
+        title: 'WhatsApp Messaging API',
+        description: 'API REST para envio de mensagens WhatsApp via WhatsApp Web',
+        version: '1.0.0'
+    },
+    servers: [
+        { url: 'http://localhost:3000' }  // URL base da API
+    ],
+    components: {
+        securitySchemes: {
+            bearerAuth: {
+                type: 'http',
+                scheme: 'bearer',
+                bearerFormat: 'JWT'  // formato do token (ex.: JWT) – opcional, apenas descritivo
+            }
+        }
+    },
+    security: [
+        { bearerAuth: [] }  // Aplica o esquema de segurança Bearer globalmente
+    ],
+    paths: {
+        '/send': {
+            post: {
+                summary: 'Envia uma mensagem WhatsApp para o número especificado',
+                tags: ['Mensagens'],
+                security: [
+                    { bearerAuth: [] }  // exige token Bearer neste endpoint
+                ],
+                requestBody: {
+                    required: true,
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                properties: {
+                                    numero: {
+                                        type: 'string',
+                                        description: 'Número de telefone em formato internacional (com DDI e DDD)'
+                                    },
+                                    mensagem: {
+                                        type: 'string',
+                                        description: 'Texto da mensagem a ser enviada'
+                                    }
+                                },
+                                required: ['numero', 'mensagem']
+                            },
+                            example: {
+                                numero: '5591987654321',
+                                mensagem: 'Olá, esta é uma mensagem de teste via API.'
+                            }
+                        }
+                    }
+                },
+                responses: {
+                    '200': {
+                        description: 'Mensagem enviada com sucesso',
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        status: { type: 'string' }
+                                    },
+                                    example: { status: 'enviado' }
+                                }
+                            }
+                        }
+                    },
+                    '400': { description: 'Número ou mensagem não fornecido na requisição (campos faltando)' },
+                    '401': { description: 'Token de autenticação ausente ou inválido' },
+                    '404': { description: 'Número não encontrado no WhatsApp (número não registrado)' },
+                    '503': { description: 'WhatsApp Web não conectado no momento (aguardando login)' },
+                    '500': { description: 'Erro interno no servidor ao tentar enviar a mensagem' }
+                }
+            }
+        }
+    }
+};
+// 1️⃣ Monta o Swagger UI antes do listen:
+const swaggerUi = require('swagger-ui-express');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// 2️⃣ Faz o servidor escutar em 0.0.0.0 para aceitar conexões externas:
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Swagger UI disponível em http://<SEU_HOST_OU_IP>:${PORT}/api-docs`);
+});
+
+// Inicializa o cliente WhatsApp
 client.initialize();
