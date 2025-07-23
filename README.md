@@ -27,7 +27,7 @@ Servidor WhatsApp integrado ao [`whatsapp-web.js`](https://github.com/pedroslope
 ### 1. Clone ou baixe o projeto
 
 ```sh
-git clone https://github.com/SEU_USUARIO/whatsapp-server-node.git
+git clone https://github.com/ricardomasterdev/whatsapp_server_node.git
 cd whatsapp-server-node
 Ou simplesmente baixe e extraia o ZIP em uma pasta do seu computador.
 
