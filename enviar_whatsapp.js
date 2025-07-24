@@ -188,8 +188,8 @@ app.post('/send', async (req, res) => {
 // =====================================
 // Escuta em todas interfaces ('0.0.0.0') para permitir acesso externo
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
-    console.log(`📚 Documentação Swagger em http://localhost:${PORT}/api-docs`);
+    console.log(`🚀 Servidor rodando em http://<SEU_HOST_OU_IP>:${PORT}`);
+    console.log(`📚 Documentação Swagger em http://<SEU_HOST_OU_IP>:${PORT}/api-docs`);
 });
 
 // Inicializa a sessão do WhatsApp
