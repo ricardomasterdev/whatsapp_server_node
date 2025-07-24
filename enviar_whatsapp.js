@@ -145,6 +145,44 @@ const swaggerDocument = {
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
+// Rota raiz: mostra links para API e Swagger UI
+app.get('/', (req, res) => {
+  // Monta a URL base a partir do request
+  const base = `${req.protocol}://${req.get('host')}`;
+
+  res.send(`
+    <html>
+      <head>
+        <title>WhatsApp API</title>
+        <style>
+          body { font-family: sans-serif; margin: 40px; }
+          h1 { color: #333; }
+          a { color: #0366d6; text-decoration: none; }
+          a:hover { text-decoration: underline; }
+          code { background: #f1f1f1; padding: 2px 4px; border-radius: 4px; }
+        </style>
+      </head>
+      <body>
+        <h1>📲 WhatsApp Server API</h1>
+        <p>Bem-vindo! Aqui estão suas rotas disponíveis:</p>
+        <ul>
+          <li>
+            <strong>Swagger UI:</strong>
+            <a href="${base}/api-docs" target="_blank">${base}/api-docs</a>
+          </li>
+          <li>
+            <strong>Endpoint de envio:</strong>
+            <code>POST ${base}/send</code>
+          </li>
+        </ul>
+        <p>Use <code>Authorization: Bearer &lt;seu_token&gt;</code> no header ao chamar <code>/send</code>.</p>
+      </body>
+    </html>
+  `);
+});
+
+
+
 // ==========================
 // ===== Endpoint /send =====
 // ==========================
